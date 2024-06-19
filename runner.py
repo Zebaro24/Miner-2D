@@ -1,3 +1,4 @@
+from menu import Menu
 from miner_2d import Miner2D
 
 from config import *
@@ -15,7 +16,12 @@ class Runner:
 
         # for fps
         self.clock = pygame.time.Clock()
+
+
         self.screen = pygame.display.set_mode((width, height))
+
+        self.menu = Menu(self.screen, width, height)
+        self.in_menu = True
 
         self.miner_2d = Miner2D(map_width, map_height)
 
@@ -27,6 +33,13 @@ class Runner:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.run_bool = False
+                if self.in_menu:
+                    action = self.menu.handle_event(event)
+                    if action == "play":
+                        name, ip = self.menu.get_values()
+
+                        self.in_menu = False
+
 
                 # mouse motion
                 if event.type == MOUSEMOTION:
@@ -47,7 +60,13 @@ class Runner:
                     # self.key_clicked(event.key)
                     pass
 
-            self.draw(self.screen)
+
+            if self.in_menu:
+
+
+                self.menu.draw()
+            else:
+                self.draw(self.screen)
 
             # self.tics()
 
