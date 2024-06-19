@@ -25,7 +25,8 @@ class Map(list):
 class Miner2D:
     pygame.init()
 
-    def __init__(self, map_width, map_height):
+    def __init__(self, runner, map_width, map_height):
+        self.runner = runner
         self.map = Map(map_width, map_height)
         self.map.generate_map()
 
@@ -38,8 +39,11 @@ class Miner2D:
         size = 80
         for y in range(7):
             for x in range(11):
-                pygame.draw.rect(screen, (255, x*25, y*25), (size * x, size * y, size, size))
+                pygame.draw.rect(screen, (255, x * 25, y * 25), (size * x, size * y, size, size))
         pygame.draw.rect(screen, (0, 0, 0), (0, 560, 880, 40))
+
+    def handle_event(self, event):
+        pass
 
 
 if __name__ == '__main__':

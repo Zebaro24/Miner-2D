@@ -1,8 +1,8 @@
 import pygame
 
 class Menu:
-    def __init__(self, screen, width, height):
-        self.screen = screen
+    def __init__(self, runner, width, height):
+        self.runner = runner
         self.width = width
         self.height = height
 
@@ -31,42 +31,42 @@ class Menu:
         self.active_ip = False
 
         # Load background image
-        self.background_image = pygame.image.load("background1.png")
+        self.background_image = pygame.image.load(r"images\background1.png")
         self.bg_x = 0
         self.bg_speed = 1
 
-    def draw(self):
+    def draw(self, surface):
         # Move background
         self.bg_x -= self.bg_speed
         if self.bg_x <= -self.background_image.get_width():
             self.bg_x = 0
 
         # Draw background
-        self.screen.blit(self.background_image, (self.bg_x, 0))
-        self.screen.blit(self.background_image, (self.bg_x + self.background_image.get_width(), 0))
+        surface.blit(self.background_image, (self.bg_x, 0))
+        surface.blit(self.background_image, (self.bg_x + self.background_image.get_width(), 0))
 
         # Draw title
         title_surf = self.title_font.render("Miner 2-D", True, self.text_color)
         title_rect = title_surf.get_rect(center=(self.width // 2, self.height // 6))
-        self.screen.blit(title_surf, title_rect)
+        surface.blit(title_surf, title_rect)
 
         # Draw nickname input
         nickname_color = self.input_active_color if self.active_nickname else self.input_inactive_color
-        pygame.draw.rect(self.screen, nickname_color, self.nickname_rect, 2)
+        pygame.draw.rect(surface, nickname_color, self.nickname_rect, 2)
         nickname_surf = self.font.render(self.nickname, True, self.text_color)
-        self.screen.blit(nickname_surf, (self.nickname_rect.x + 10, self.nickname_rect.y + 10))
+        surface.blit(nickname_surf, (self.nickname_rect.x + 10, self.nickname_rect.y + 10))
 
         # Draw play button
-        pygame.draw.rect(self.screen, self.button_color, self.play_button_rect)
+        pygame.draw.rect(surface, self.button_color, self.play_button_rect)
         play_surf = self.font.render("Play", True, self.text_color)
         play_rect = play_surf.get_rect(center=self.play_button_rect.center)
-        self.screen.blit(play_surf, play_rect)
+        surface.blit(play_surf, play_rect)
 
         # Draw IP address input
         ip_color = self.input_active_color if self.active_ip else self.input_inactive_color
-        pygame.draw.rect(self.screen, ip_color, self.ip_address_rect, 2)
+        pygame.draw.rect(surface, ip_color, self.ip_address_rect, 2)
         ip_surf = self.font.render(self.ip_address, True, self.text_color)
-        self.screen.blit(ip_surf, (self.ip_address_rect.x + 10, self.ip_address_rect.y + 10))
+        surface.blit(ip_surf, (self.ip_address_rect.x + 10, self.ip_address_rect.y + 10))
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -77,7 +77,8 @@ class Menu:
                 self.active_ip = True
                 self.active_nickname = False
             elif self.play_button_rect.collidepoint(event.pos):
-                return "play"
+                self.runner.set_menu_value(self.nickname, self.ip_address)
+                self.runner.change_to_miner_2d()
 
         if event.type == pygame.KEYDOWN:
             if self.active_nickname:
@@ -92,6 +93,3 @@ class Menu:
                     self.ip_address += event.unicode
 
         return None
-
-    def get_values(self):
-        return self.nickname, self.ip_address

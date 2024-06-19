@@ -1,15 +1,20 @@
-from menu import Menu
-from miner_2d import Miner2D
+from scenes.menu import Menu
+from scenes.miner_2d import Miner2D
 
 from config import *
 
-from pygame.locals import QUIT, MOUSEMOTION, MOUSEBUTTONDOWN, MOUSEBUTTONUP
+from pygame.locals import QUIT
 import pygame
 
 
 class Runner:
     def __init__(self, width, height, map_width, map_height):
+        self.draw = None
+        self.handle_event = None
         self.run_bool = True
+
+        self.name = None
+        self.ip = None
 
         # name of window
         pygame.display.set_caption("Miner-2D")
@@ -17,15 +22,24 @@ class Runner:
         # for fps
         self.clock = pygame.time.Clock()
 
-
         self.screen = pygame.display.set_mode((width, height))
 
-        self.menu = Menu(self.screen, width, height)
-        self.in_menu = True
+        self.menu = Menu(self, width, height)
+        self.miner_2d = Miner2D(self, map_width, map_height)
 
-        self.miner_2d = Miner2D(map_width, map_height)
+        self.change_to_menu()
 
+    def change_to_menu(self):
+        self.draw = self.menu.draw
+        self.handle_event = self.menu.handle_event
+
+    def change_to_miner_2d(self):
         self.draw = self.miner_2d.draw
+        self.handle_event = self.miner_2d.handle_event
+
+    def set_menu_value(self, name, ip):
+        self.name = name
+        self.ip = ip
 
     def run(self):
         while self.run_bool:
@@ -33,40 +47,10 @@ class Runner:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.run_bool = False
-                if self.in_menu:
-                    action = self.menu.handle_event(event)
-                    if action == "play":
-                        name, ip = self.menu.get_values()
+                else:
+                    self.handle_event(event)
 
-                        self.in_menu = False
-
-
-                # mouse motion
-                if event.type == MOUSEMOTION:
-                    # self.mouse_motion(event.pos)
-                    pass
-
-                # if clicked
-                if event.type == MOUSEBUTTONDOWN:
-                    # self.mouse_clicked(event.button)
-                    pass
-
-                # if un clicked
-                elif event.type == MOUSEBUTTONUP:
-                    # self.mouse_un_clicked(event.button)
-                    pass
-
-                if event.type == pygame.KEYDOWN:
-                    # self.key_clicked(event.key)
-                    pass
-
-
-            if self.in_menu:
-
-
-                self.menu.draw()
-            else:
-                self.draw(self.screen)
+            self.draw(self.screen)
 
             # self.tics()
 
