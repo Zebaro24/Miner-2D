@@ -3,3 +3,22 @@ WINDOW_HEIGHT = 600
 
 MAP_WIDTH = 100
 MAP_HEIGHT = 100
+
+
+class COLOR:
+    BLACK = (0, 0, 0)
+    WHITE = (255, 255, 255)
+    RED = (255, 0, 0)
+    GREEN = (0, 255, 0)
+    BLUE = (0, 0, 255)
+    YELLOW = (255, 255, 0)
+    CYAN = (0, 255, 255)
+    MAGENTA = (255, 0, 255)
+    GRAY = (169, 169, 169)
+    DARK_GRAY = (105, 105, 105)
+    LIGHT_GRAY = (192, 192, 192)
+
+    BACKGROUND = (169, 169, 169)
+    DARK_STONE = (105, 105, 105)
+    LIGHT_STONE = (192, 192, 192)
+
