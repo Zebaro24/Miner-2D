@@ -1,11 +1,10 @@
+# runner.py
+import pygame
+from pygame.locals import QUIT
 from scenes.menu import Menu
 from scenes.miner_2d import Miner2D
-
+import client  # Подключаем модуль client
 from config import *
-
-from pygame.locals import QUIT
-import pygame
-
 
 class Runner:
     def __init__(self, width, height, map_width, map_height):
@@ -37,13 +36,18 @@ class Runner:
         self.draw = self.miner_2d.draw
         self.handle_event = self.miner_2d.handle_event
 
+    def change_to_miner_2d_from_menu(self):
+        self.change_to_miner_2d()  # Метод для переключения на экран Miner2D из меню
+
     def set_menu_value(self, name, ip):
         self.name = name
         self.ip = ip
 
+    def new_client(self, ip):
+        self.client = client.Client(ip)
+
     def run(self):
         while self.run_bool:
-            # to detect some events
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.run_bool = False
@@ -52,14 +56,10 @@ class Runner:
 
             self.draw(self.screen)
 
-            # self.tics()
-
             pygame.display.update()
-            # fps on screen
             self.clock.tick(60)
 
         pygame.quit()
-
 
 if __name__ == '__main__':
     runner = Runner(WINDOW_WIDTH, WINDOW_HEIGHT, MAP_WIDTH, MAP_HEIGHT)

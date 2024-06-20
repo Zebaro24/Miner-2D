@@ -78,7 +78,8 @@ class Menu:
                 self.active_nickname = False
             elif self.play_button_rect.collidepoint(event.pos):
                 self.runner.set_menu_value(self.nickname, self.ip_address)
-                self.runner.change_to_miner_2d()
+                self.runner.new_client(self.ip_address)
+                self.runner.change_to_miner_2d_from_menu()  # Изменено на change_to_miner_2d_from_menu
 
         if event.type == pygame.KEYDOWN:
             if self.active_nickname:
