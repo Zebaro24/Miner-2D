@@ -1,10 +1,9 @@
 from pygame import Surface
 
-from blocks.block import Block
 
-
-class Player(Block):
-    id = "player"
+class Block:
+    id = "id-block"
+    surface = None
 
     def get_surface(self):
         if self.surface is None:

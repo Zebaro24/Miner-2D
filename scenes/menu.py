@@ -1,5 +1,6 @@
 import pygame
 
+
 class Menu:
     def __init__(self, runner, width, height):
         self.runner = runner
@@ -46,7 +47,7 @@ class Menu:
         surface.blit(self.background_image, (self.bg_x + self.background_image.get_width(), 0))
 
         # Draw title
-        title_surf = self.title_font.render("Miner 2-D", True, self.text_color)
+        title_surf = self.title_font.render("Miner-2D", True, self.text_color)
         title_rect = title_surf.get_rect(center=(self.width // 2, self.height // 6))
         surface.blit(title_surf, title_rect)
 

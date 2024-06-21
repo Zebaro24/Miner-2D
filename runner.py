@@ -3,8 +3,8 @@ import pygame
 from pygame.locals import QUIT
 from scenes.menu import Menu
 from scenes.miner_2d import Miner2D
-import client  # Подключаем модуль client
 from config import *
+
 
 class Runner:
     def __init__(self, width, height, map_width, map_height):
@@ -44,7 +44,8 @@ class Runner:
         self.ip = ip
 
     def new_client(self, ip):
-        self.client = client.Client(ip)
+        # self.client = client.Client(ip)
+        pass
 
     def run(self):
         while self.run_bool:
@@ -60,6 +61,7 @@ class Runner:
             self.clock.tick(60)
 
         pygame.quit()
+
 
 if __name__ == '__main__':
     runner = Runner(WINDOW_WIDTH, WINDOW_HEIGHT, MAP_WIDTH, MAP_HEIGHT)

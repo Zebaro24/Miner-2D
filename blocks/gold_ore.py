@@ -5,12 +5,12 @@ from blocks.block import Block  # Предполагается, что у вас
 from config import COLOR
 
 
-class Cobblestone(Block):
-    id = "cobblestone"
+class GoldOre(Block):
+    id = "gold_ore"
 
     def get_surface(self):
         if self.surface is None:
-            image_path = 'images/cobblestone.png'
+            image_path = 'images/gold_ore.png'
             image = pygame_image_load(image_path).convert_alpha()
 
             self.surface = Surface(image.get_size())

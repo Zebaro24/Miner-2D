@@ -1,6 +1,7 @@
 import socket
 import pickle  # Для десериализации данных
 
+
 class Client:
     def __init__(self, ip):
         self.host, self.port = ip.split(":")

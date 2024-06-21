@@ -3,6 +3,7 @@ import socket
 import pickle  # Для сериализации данных
 import threading
 
+
 class Server:
     def __init__(self, host, port):
         self.host = host
@@ -47,12 +48,21 @@ class Server:
         self.world_map = new_world_map
         self.broadcast_world_state()
 
+
 class ClientHandler(threading.Thread):
     def __init__(self, client_socket, server, client_id):
         super().__init__()
         self.client_socket = client_socket
         self.server = server
         self.client_id = client_id
+
+    def send_data(self, data):
+        self.client_socket.send(data)
+
+    def send_initial_world_state(self):
+        # Отправка начального состояния мира новому клиенту
+        data = pickle.dumps(self.server.world_map)
+        self.client_socket.send(data)
 
     def run(self):
         while True:
@@ -67,14 +77,7 @@ class ClientHandler(threading.Thread):
                 print(f"Error handling client {self.client_id}: {e}")
                 break
 
-    def send_data(self, data):
-        self.client_socket.send(data)
-
-    def send_initial_world_state(self):
-        # Отправка начального состояния мира новому клиенту
-        data = pickle.dumps(self.server.world_map)
-        self.client_socket.send(data)
 
 if __name__ == "__main__":
-    server = Server("localhost", 12345)  # Пример адреса и порта
-    server.start()
+    my_server = Server("localhost", 12345)  # Пример адреса и порта
+    my_server.start()
