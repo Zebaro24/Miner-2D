@@ -19,8 +19,8 @@ class Menu:
         self.font = pygame.font.Font(None, 36)
 
         # Input fields
-        self.nickname = ""
-        self.ip_address = ""
+        self.nickname, self.ip_address = self.read_data()
+
 
         # Buttons and input fields rectangles
         self.nickname_rect = pygame.Rect(width // 4, height // 3, width // 2, 50)
@@ -79,8 +79,9 @@ class Menu:
                 self.active_nickname = False
             elif self.play_button_rect.collidepoint(event.pos):
                 self.runner.set_menu_value(self.nickname, self.ip_address)
-                self.runner.new_client(self.ip_address)
-                self.runner.change_to_miner_2d_from_menu()  # Изменено на change_to_miner_2d_from_menu
+                self.write_data()
+                self.client = self.runner.new_client(self.ip_address)
+                self.client.change_to_miner_2d_from_menu()  # Изменено на change_to_miner_2d_from_menu
 
         if event.type == pygame.KEYDOWN:
             if self.active_nickname:
@@ -95,3 +96,15 @@ class Menu:
                     self.ip_address += event.unicode
 
         return None
+
+
+    def write_data(self):
+        f = open("log.txt", "w")
+        f.write(f"{self.nickname}\n{self.ip_address}")
+        f.close()
+
+    def read_data(self):
+        file = open('log.txt', 'r')
+        content = file.read()
+        file.close()
+        return content.split("\n")[0], content.split("\n")[1]
