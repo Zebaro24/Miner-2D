@@ -81,7 +81,7 @@ class Menu:
                 self.runner.set_menu_value(self.nickname, self.ip_address)
                 self.write_data()
                 self.client = self.runner.new_client(self.ip_address)
-                self.client.change_to_miner_2d_from_menu()  # Изменено на change_to_miner_2d_from_menu
+                self.runner.change_to_miner_2d_from_menu()
 
         if event.type == pygame.KEYDOWN:
             if self.active_nickname:
