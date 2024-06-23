@@ -14,7 +14,7 @@ class Miner2D:
         self.map = MapMiner(map_width, map_height)
         self.map.generate_map()
 
-        self.player_x, self.player_y = randint(1, 8), randint(1, 8)
+        self.player_x, self.player_y = randint(1, 98), randint(1, 98)
         self.map.set_player_position(self.player_x, self.player_y)
         print(self.player_x, self.player_y)
 

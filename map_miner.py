@@ -9,6 +9,7 @@ from blocks.block import Block
 
 class MapMiner(list):
     def __init__(self, width, height):
+        print(width, height)
         self.list_blocks = None
         self.width = width
         self.height = height
@@ -57,14 +58,14 @@ class MapMiner(list):
 
         for y in range(full_view_y):
             for x in range(full_view_x):
-                x_abroad = start_x + x < 0 or start_x + x >= full_view_x
-                y_abroad = start_y + y < 0 or start_y + y >= full_view_y
+                x_abroad = start_x + x < 0 or start_x + x >= self.width
+                y_abroad = start_y + y < 0 or start_y + y >= self.height
 
                 if x_abroad or y_abroad:
                     view_map[y][x] = None
                 else:
                     view_map[y][x] = self[start_y + y][start_x + x]
-
+        # print(self)
         return view_map
 
     def get_surface(self, player_x, player_y):
