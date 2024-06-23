@@ -7,4 +7,4 @@ from config import COLOR
 
 class IronOre(Block):
     id = "iron_ore"
-    image_path = "images/gold_ore.png"
+    image_path = "images/iron_ore.png"

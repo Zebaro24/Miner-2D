@@ -3,6 +3,7 @@ from random import randint
 from config import COLOR
 
 from map_miner import MapMiner
+from player import Player
 
 
 class Miner2D:
@@ -17,31 +18,56 @@ class Miner2D:
         self.map.set_player_position(self.player_x, self.player_y)
         print(self.player_x, self.player_y)
 
-    def draw(self, screen: pygame.Surface):
+        self.player = Player(runner.name)
 
+    def draw(self, screen: pygame.Surface):
         self.draw_map(screen)
-        pygame.draw.rect(screen, (0, 0, 0), (0, 560, 880, 40))
+        self.draw_balance(screen)
 
     def draw_map(self, screen):
         screen.fill(COLOR.BACKGROUND)
         screen.blit(self.map.get_surface(self.player_x + 1, self.player_y + 1), (-80, -80))
 
+    def draw_balance(self, screen):
+        pygame.draw.rect(screen, (0, 0, 0), (0, 560, 880, 40))
+        font = pygame.font.Font(None, 38)
+        iron_surface = font.render(f"Железо: {self.player.count_iron}", True, COLOR.WHITE)
+        gold_surface = font.render(f"Золото: {self.player.count_gold}", True, COLOR.WHITE)
+
+        token_surface = font.render(f"Токены: {self.player.count_tokens}", True, COLOR.YELLOW)
+
+        screen.blit(iron_surface, (20, 566))
+        screen.blit(gold_surface, (220, 566))
+        screen.blit(token_surface, (700, 566))
+
+    def move_player(self, event):
+        self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
+        if event.key == pygame.K_UP:
+            self.player_y -= 1
+
+        elif event.key == pygame.K_DOWN:
+            self.player_y += 1
+
+        elif event.key == pygame.K_LEFT:
+            self.player_x -= 1
+
+        elif event.key == pygame.K_RIGHT:
+            self.player_x += 1
+
+        block = self.map[self.player_y][self.player_x]
+        if block is self.map.all_block.iron_ore:
+            self.player.add_iron()
+        elif block is self.map.all_block.gold_ore:
+            self.player.add_gold()
+
+        self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
+
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
-            self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
-            if event.key == pygame.K_UP:
-                self.player_y -= 1
-
-            elif event.key == pygame.K_DOWN:
-                self.player_y += 1
-
-            elif event.key == pygame.K_LEFT:
-                self.player_x -= 1
-
-            elif event.key == pygame.K_RIGHT:
-                self.player_x += 1
-
-            self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
+            if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
+                self.move_player(event)
+            elif event.key == pygame.K_RETURN:
+                self.player.convert_to_token()
 
 
 if __name__ == '__main__':
