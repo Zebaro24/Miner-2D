@@ -1,12 +1,17 @@
+from blocks.player_block import Player
+
+from blocks.mycelium import Mycelium
+
 from blocks.cobblestone import Cobblestone
-from blocks.gold_ore import GoldOre
 from blocks.iron_ore import IronOre
-from blocks.player import Player
+from blocks.gold_ore import GoldOre
 
 
 class AllBlock:
     def __init__(self):
         self.player = Player()
+
+        self.mycelium = Mycelium()
 
         self.cobblestone = Cobblestone()
         self.iron_ore = IronOre()

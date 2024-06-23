@@ -30,6 +30,18 @@ class MapMiner(list):
         list_blocks = self.all_block.get_list_block()
         return choice(list_blocks)
 
+    def set_player_position(self, x, y):
+        self.set_block(x, y, self.all_block.player)
+
+        mycelium = self.all_block.mycelium
+        self.set_block(x + 1, y, mycelium)
+        self.set_block(x - 1, y, mycelium)
+        self.set_block(x, y + 1, mycelium)
+        self.set_block(x, y - 1, mycelium)
+
+    def set_block(self, x, y, block):
+        self[y][x] = block
+
     def get_view_map(self, player_x, player_y):
         start_x, start_y = player_x - self.view_x, player_y - self.view_y
         full_view_x, full_view_y = self.view_x * 2 + 1, self.view_y * 2 + 1

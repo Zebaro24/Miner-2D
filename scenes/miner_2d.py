@@ -1,4 +1,5 @@
 import pygame
+from random import randint
 from config import COLOR
 
 from map_miner import MapMiner
@@ -12,7 +13,9 @@ class Miner2D:
         self.map = MapMiner(map_width, map_height)
         self.map.generate_map()
 
-        self.player_x, self.player_y = 2, 3
+        self.player_x, self.player_y = randint(1, 8), randint(1, 8)
+        self.map.set_player_position(self.player_x, self.player_y)
+        print(self.player_x, self.player_y)
 
     def draw(self, screen: pygame.Surface):
 
@@ -25,6 +28,7 @@ class Miner2D:
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
+            self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
             if event.key == pygame.K_UP:
                 self.player_y -= 1
 
@@ -36,6 +40,8 @@ class Miner2D:
 
             elif event.key == pygame.K_RIGHT:
                 self.player_x += 1
+
+            self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
 
 
 if __name__ == '__main__':

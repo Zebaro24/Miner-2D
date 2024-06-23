@@ -21,7 +21,6 @@ class Menu:
         # Input fields
         self.nickname, self.ip_address = self.read_data()
 
-
         # Buttons and input fields rectangles
         self.nickname_rect = pygame.Rect(width // 4, height // 3, width // 2, 50)
         self.play_button_rect = pygame.Rect(width // 4, height // 2, width // 2, 50)
@@ -96,7 +95,6 @@ class Menu:
                     self.ip_address += event.unicode
 
         return None
-
 
     def write_data(self):
         f = open("log.txt", "w")

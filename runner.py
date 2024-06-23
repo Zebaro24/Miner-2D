@@ -32,16 +32,16 @@ class Runner:
         self.draw = self.menu.draw
         self.handle_event = self.menu.handle_event
 
-
     def change_to_miner_2d_from_menu(self):
         self.draw = self.miner_2d.draw
         self.handle_event = self.miner_2d.handle_event
+
     def set_menu_value(self, name, ip):
         self.name = name
         self.ip = ip
 
     def new_client(self, ip):
-         # self.client = client.Client(ip)
+        # self.client = client.Client(ip)
         pass
 
     def run(self):
