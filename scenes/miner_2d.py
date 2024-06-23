@@ -44,15 +44,19 @@ class Miner2D:
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
         if event.key == pygame.K_UP:
             self.player_y -= 1
+            self.map.all_block.player.set_up()
 
         elif event.key == pygame.K_DOWN:
             self.player_y += 1
+            self.map.all_block.player.set_down()
 
         elif event.key == pygame.K_LEFT:
             self.player_x -= 1
+            self.map.all_block.player.set_left()
 
         elif event.key == pygame.K_RIGHT:
             self.player_x += 1
+            self.map.all_block.player.set_right()
 
         block = self.map[self.player_y][self.player_x]
         if block is self.map.all_block.iron_ore:
