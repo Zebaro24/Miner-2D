@@ -20,16 +20,40 @@ class Miner2D:
 
         self.player = Player(runner.name)
 
+        self.speed = [0.0, 0.0]
+        self.view_cord = [80 * (self.player_x + 1), 80 * (self.player_y + 1)]
+        self.player_cord = self.view_cord.copy()
+        print(self.view_cord)
+
+    def move_view(self):
+        # <X>
+        if self.view_cord[0] != self.player_cord[0]:
+            self.speed[0] = (self.player_cord[0] - self.view_cord[0])/8
+        else:
+            self.speed[0] = 0
+
+        # <Y>
+        if self.view_cord[1] != self.player_cord[1]:
+            self.speed[1] = (self.player_cord[1] - self.view_cord[1])/8
+        else:
+            self.speed[1] = 0
+
+        self.view_cord[0] += self.speed[0]
+        self.view_cord[1] += self.speed[1]
+
     def draw(self, screen: pygame.Surface):
         self.draw_map(screen)
         self.draw_balance(screen)
 
     def draw_map(self, screen):
+        self.player_cord = [80 * (self.player_x + 1), 80 * (self.player_y + 1)]
+        self.move_view()
         screen.fill(COLOR.BACKGROUND)
-        screen.blit(self.map.get_surface(self.player_x + 1, self.player_y + 1), (-80, -80))
+        screen.blit(self.map.get_surface(self.player_x + 1, self.player_y + 1),
+                    (self.player_cord[0] - self.view_cord[0] - 80, self.player_cord[1] - self.view_cord[1] - 80))
 
     def draw_balance(self, screen):
-        pygame.draw.rect(screen, (0, 0, 0), (0, 560, 880, 40))
+        pygame.draw.rect(screen, COLOR.BLACK, (0, 560, 880, 40))
         font = pygame.font.Font(None, 38)
         iron_surface = font.render(f"Железо: {self.player.count_iron}", True, COLOR.WHITE)
         gold_surface = font.render(f"Золото: {self.player.count_gold}", True, COLOR.WHITE)
