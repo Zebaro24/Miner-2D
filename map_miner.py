@@ -9,6 +9,7 @@ from blocks.block import Block
 
 class MapMiner(list):
     def __init__(self, width, height):
+        self.list_blocks = None
         self.width = width
         self.height = height
         super(MapMiner, self).__init__()
@@ -27,8 +28,12 @@ class MapMiner(list):
                 self[y][x] = self.generate_block()
 
     def generate_block(self):
-        list_blocks = self.all_block.get_list_block()
-        return choice(list_blocks)
+        if self.list_blocks is None:
+            dict_blocks = self.all_block.get_list_block()
+            self.list_blocks = []
+            for block, count in dict_blocks.items():
+                self.list_blocks += [block] * count
+        return choice(self.list_blocks)
 
     def set_player_position(self, x, y):
         self.set_block(x, y, self.all_block.player)
