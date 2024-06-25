@@ -23,6 +23,12 @@ class MapMiner(list):
 
         self.all_block = AllBlock()
 
+        self.changes = []
+
+    @staticmethod
+    def send_changes_func(changes):
+        print(f"Not send changes: {changes}")
+
     def generate_map(self):
         for y in range(self.height):
             for x in range(self.width):
@@ -37,6 +43,7 @@ class MapMiner(list):
         return choice(self.list_blocks)
 
     def set_player_position(self, x, y):
+        print("ggg")
         self.set_block(x, y, self.all_block.player)
 
         mycelium = self.all_block.mycelium
@@ -45,8 +52,24 @@ class MapMiner(list):
         self.set_block(x, y + 1, mycelium)
         self.set_block(x, y - 1, mycelium)
 
-    def set_block(self, x, y, block):
+    def set_block(self, x, y, block, save_changes=True):
+        if save_changes:
+            change = {
+                "x": x,
+                "y": y,
+                "block": block.__class__
+            }
+            self.changes.append(change)
         self[y][x] = block
+
+    def send_changes(self):
+        print(self.changes)
+        self.send_changes_func(self.changes)
+        self.changes.clear()
+
+    def receive_changes(self, changes):
+        for change in changes:
+            self.set_block(change["x"], change["y"], change["block"](), False)
 
     def get_view_map(self, player_x, player_y):
         start_x, start_y = player_x - self.view_x, player_y - self.view_y

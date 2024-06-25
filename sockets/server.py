@@ -1,31 +1,33 @@
 # server.py
-import socket
-import pickle  # Для сериализации данных
-import threading
+from socket import socket, AF_INET, SOCK_STREAM
+from pickle import dumps, loads
+from threading import Thread
+
+from map_miner import MapMiner
 
 
-class Server:
-    def __init__(self, host, port):
+class Server(socket):
+    def __init__(self, host, port, width=100, height=100):
+        super().__init__(AF_INET, SOCK_STREAM)
         self.host = host
         self.port = port
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.client_handlers = {}  # Словарь для хранения клиентских обработчиков
-        self.world_map = self.generate_world_map()  # Генерация мира игры
-        self.player_count = 0  # Счетчик игроков
 
-    def start(self):
-        self.server_socket.bind((self.host, self.port))
-        self.server_socket.listen(5)
+        self.client_handlers = []
+        self.map = MapMiner(width, height)
+        self.map.generate_map()
+
+    def run(self):
+        self.bind((self.host, self.port))
+        self.listen(5)
         print(f"Server is listening on {self.host}:{self.port}")
 
         while True:
-            client_socket, client_address = self.server_socket.accept()
+            client_socket, client_address = self.accept()
             print(f"Accepted connection from {client_address}")
 
             # Создание нового обработчика клиента
-            client_handler = ClientHandler(client_socket, self, self.player_count)
-            self.client_handlers[self.player_count] = client_handler
-            self.player_count += 1
+            client_handler = ClientHandler(client_socket, self)
+            self.client_handlers.append(client_handler)
 
             # Отправляем новому клиенту текущее состояние мира
             client_handler.send_initial_world_state()
@@ -33,51 +35,48 @@ class Server:
             # Запуск потока для обработки клиента
             client_handler.start()
 
-    def generate_world_map(self):
-        # Генерация и возвращение начального состояния мира
-        return [[0 for _ in range(100)] for _ in range(100)]  # Пример: мир 100x100 с пустыми блоками
-
-    def broadcast_world_state(self):
-        # Отправка текущего состояния мира всем клиентам
-        data = pickle.dumps(self.world_map)
-        for client_id, client_handler in self.client_handlers.items():
-            client_handler.send_data(data)
-
-    def update_world_state(self, new_world_map):
-        # Обновление состояния мира на сервере
-        self.world_map = new_world_map
-        self.broadcast_world_state()
+    def send_changes(self, changes, changes_handler):
+        self.map.receive_changes(changes)
+        for handler in self.client_handlers:
+            if handler != changes_handler:
+                handler.send_to_client("changes", changes)
 
 
-class ClientHandler(threading.Thread):
-    def __init__(self, client_socket, server, client_id):
+class ClientHandler(Thread):
+    def __init__(self, client_socket, server):
         super().__init__()
         self.client_socket = client_socket
         self.server = server
-        self.client_id = client_id
 
-    def send_data(self, data):
-        self.client_socket.send(data)
+    def send_to_client(self, type_data, data):
+        dict_data = {
+            "type": type_data,
+            "data": data
+        }
+        data_pickle = dumps(dict_data)
+        self.client_socket.send(data_pickle)
+
+    def receive_from_client(self, dict_data):
+        print(f"receive {dict_data}")
+        if dict_data["type"] == "changes":
+            self.server.send_changes(dict_data["data"], self.client_socket)
+        elif dict_data["type"] == "end":
+            pass
 
     def send_initial_world_state(self):
         # Отправка начального состояния мира новому клиенту
-        data = pickle.dumps(self.server.world_map)
-        self.client_socket.send(data)
+        self.send_to_client("world_map", self.server.map)
 
     def run(self):
         while True:
-            try:
-                data = self.client_socket.recv(4096)
-                if not data:
-                    break
-                # Обработка данных от клиента, например, изменение состояния мира
-                received_map = pickle.loads(data)
-                self.server.update_world_state(received_map)
-            except Exception as e:
-                print(f"Error handling client {self.client_id}: {e}")
+            data = self.client_socket.recv(4096)
+            if not data:
                 break
+            # Обработка данных от клиента, например, изменение состояния мира
+            dict_data = loads(data)
+            self.receive_from_client(dict_data)
 
 
 if __name__ == "__main__":
     my_server = Server("localhost", 12345)  # Пример адреса и порта
-    my_server.start()
+    my_server.run()

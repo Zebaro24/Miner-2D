@@ -9,14 +9,15 @@ from player import Player
 class Miner2D:
     pygame.init()
 
-    def __init__(self, runner, map_width, map_height):
+    def __init__(self, runner, map_width=100, map_height=100, map_miner=None):
+        self.player_x, self.player_y = 0, 0
         self.runner = runner
-        self.map = MapMiner(map_width, map_height)
-        self.map.generate_map()
+        if map_miner is None:
+            print("map_miner is None")
+            self.map = MapMiner(map_width, map_height)
+            self.map.generate_map()
 
-        self.player_x, self.player_y = randint(1, 98), randint(1, 98)
-        self.map.set_player_position(self.player_x, self.player_y)
-        print(self.player_x, self.player_y)
+        self.set_player()
 
         self.player = Player(runner.name)
 
@@ -25,16 +26,22 @@ class Miner2D:
         self.player_cord = self.view_cord.copy()
         print(self.view_cord)
 
+    def set_player(self):
+        self.player_x, self.player_y = randint(1, self.map.width - 2), randint(1, self.map.height - 2)
+        self.map.set_player_position(self.player_x, self.player_y)
+        self.map.send_changes()
+        print(self.player_x, self.player_y)
+
     def move_view(self):
         # <X>
         if self.view_cord[0] != self.player_cord[0]:
-            self.speed[0] = (self.player_cord[0] - self.view_cord[0])/8
+            self.speed[0] = (self.player_cord[0] - self.view_cord[0]) / 8
         else:
             self.speed[0] = 0
 
         # <Y>
         if self.view_cord[1] != self.player_cord[1]:
-            self.speed[1] = (self.player_cord[1] - self.view_cord[1])/8
+            self.speed[1] = (self.player_cord[1] - self.view_cord[1]) / 8
         else:
             self.speed[1] = 0
 
@@ -89,6 +96,7 @@ class Miner2D:
             self.player.add_gold()
 
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
+        self.map.send_changes()
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:

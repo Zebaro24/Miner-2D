@@ -4,10 +4,12 @@ from pygame.locals import QUIT
 from scenes.menu import Menu
 from scenes.miner_2d import Miner2D
 from config import *
+from sockets.client import Client
 
 
 class Runner:
     def __init__(self, width, height, map_width, map_height):
+        self.client = None
         self.draw = None
         self.handle_event = None
         self.run_bool = True
@@ -41,8 +43,8 @@ class Runner:
         self.ip = ip
 
     def new_client(self, ip):
-        # self.client = client.Client(ip)
-        pass
+        self.client = Client(ip, self.miner_2d)
+        self.client.start()
 
     def run(self):
         while self.run_bool:

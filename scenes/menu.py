@@ -79,7 +79,7 @@ class Menu:
             elif self.play_button_rect.collidepoint(event.pos):
                 self.runner.set_menu_value(self.nickname, self.ip_address)
                 self.write_data()
-                self.client = self.runner.new_client(self.ip_address)
+                self.runner.new_client(self.ip_address)
                 self.runner.change_to_miner_2d_from_menu()
 
         if event.type == pygame.KEYDOWN:
