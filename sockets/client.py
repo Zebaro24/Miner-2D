@@ -42,10 +42,30 @@ class Client(socket, Thread):
             print("gg")
             self.set_world_map(dict_data["data"])
 
+    def close_connection(self):
+        try:
+            self.miner_2d.exit_from_server()
+            self.send_to_server("end", None)
+        except Exception as e:
+            print(f"Error sending end signal: {e}")
+        finally:
+            self.close()
+            print("Client connection closed.")
+            self._is_running = False
+
     def run(self):
-        while True:
-            data = self.recv(40960)
-            if not data:
-                break
-            dict_data = loads(data)
-            self.receive_from_server(dict_data)
+        self._is_running = True
+        try:
+            while self._is_running:
+                data = self.recv(40960)
+                if not data:
+                    break
+                dict_data = loads(data)
+                self.receive_from_server(dict_data)
+        except ConnectionAbortedError:
+            print("Connection was aborted.")
+        except OSError as e:
+            print(f"OS error occurred: {e}")
+        finally:
+            self.close()
+            print("Client socket closed.")

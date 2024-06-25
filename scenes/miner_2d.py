@@ -29,7 +29,7 @@ class Miner2D:
     def set_player(self):
         self.player_x, self.player_y = randint(1, self.map.width - 2), randint(1, self.map.height - 2)
         self.map.set_player_position(self.player_x, self.player_y)
-        self.map.send_changes()
+
         print(self.player_x, self.player_y)
 
     def move_view(self):
@@ -64,28 +64,32 @@ class Miner2D:
         font = pygame.font.Font(None, 38)
         iron_surface = font.render(f"Железо: {self.player.count_iron}", True, COLOR.WHITE)
         gold_surface = font.render(f"Золото: {self.player.count_gold}", True, COLOR.WHITE)
-
+        coordinate_surface = font.render(f"x{self.player_x} y{self.player_y}", True, COLOR.WHITE)
         token_surface = font.render(f"Токены: {self.player.count_tokens}", True, COLOR.YELLOW)
 
         screen.blit(iron_surface, (20, 566))
         screen.blit(gold_surface, (220, 566))
+        screen.blit(coordinate_surface, (500,566))
         screen.blit(token_surface, (700, 566))
 
+    def exit_from_server(self):
+        self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
+        self.map.send_changes()
     def move_player(self, event):
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
-        if event.key == pygame.K_UP:
+        if event.key == pygame.K_UP and self.player_y>0:
             self.player_y -= 1
             self.map.all_block.player.set_up()
 
-        elif event.key == pygame.K_DOWN:
+        elif event.key == pygame.K_DOWN and self.player_y<99:
             self.player_y += 1
             self.map.all_block.player.set_down()
 
-        elif event.key == pygame.K_LEFT:
+        elif event.key == pygame.K_LEFT and self.player_x>0:
             self.player_x -= 1
             self.map.all_block.player.set_left()
 
-        elif event.key == pygame.K_RIGHT:
+        elif event.key == pygame.K_RIGHT and self.player_x<99:
             self.player_x += 1
             self.map.all_block.player.set_right()
 
@@ -97,6 +101,8 @@ class Miner2D:
 
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
         self.map.send_changes()
+
+
 
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:

@@ -51,6 +51,8 @@ class Runner:
             for event in pygame.event.get():
                 if event.type == QUIT:
                     self.run_bool = False
+                    if self.client:
+                        self.client.close_connection()
                 else:
                     self.handle_event(event)
 
