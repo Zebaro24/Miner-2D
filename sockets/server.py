@@ -11,7 +11,7 @@ class Server(socket):
         super().__init__(AF_INET, SOCK_STREAM)
         self.host = host
         self.port = port
-
+        self.players_list = []
         self.client_handlers = []
         self.map = MapMiner(width, height)
         self.map.generate_map()
@@ -85,5 +85,5 @@ class ClientHandler(Thread):
 
 
 if __name__ == "__main__":
-    my_server = Server("localhost", 12345)  # Пример адреса и порта
+    my_server = Server("26.247.81.234", 12345)  # Пример адреса и порта
     my_server.run()

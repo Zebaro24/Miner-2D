@@ -4,6 +4,7 @@ from config import COLOR
 
 from map_miner import MapMiner
 from player import Player
+from scenes.inventory import Inventory
 
 
 class Miner2D:
@@ -27,7 +28,7 @@ class Miner2D:
         print(self.view_cord)
 
     def set_player(self):
-        self.player_x, self.player_y = randint(1, self.map.width - 2), randint(1, self.map.height - 2)
+        self.player_x, self.player_y = randint(40, self.map.width - 40), randint(40, self.map.height - 40)
         self.map.set_player_position(self.player_x, self.player_y)
 
         print(self.player_x, self.player_y)
@@ -108,6 +109,11 @@ class Miner2D:
         if event.type == pygame.KEYDOWN:
             if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
                 self.move_player(event)
+            elif event.key == pygame.K_e:
+                if not self.runner.is_inventory:
+                    self.runner.change_to_inventory()
+
+
             elif event.key == pygame.K_RETURN:
                 self.player.convert_to_token()
 

@@ -1,6 +1,8 @@
 # runner.py
 import pygame
 from pygame.locals import QUIT
+
+from scenes.inventory import Inventory
 from scenes.menu import Menu
 from scenes.miner_2d import Miner2D
 from config import *
@@ -13,7 +15,7 @@ class Runner:
         self.draw = None
         self.handle_event = None
         self.run_bool = True
-
+        self.is_inventory = False
         self.name = None
         self.ip = None
 
@@ -27,7 +29,7 @@ class Runner:
 
         self.menu = Menu(self, width, height)
         self.miner_2d = Miner2D(self, map_width, map_height)
-
+        self.inventory = Inventory(self, width, height)
         self.change_to_menu()
 
     def change_to_menu(self):
@@ -37,6 +39,11 @@ class Runner:
     def change_to_miner_2d_from_menu(self):
         self.draw = self.miner_2d.draw
         self.handle_event = self.miner_2d.handle_event
+
+    def change_to_inventory(self):
+        self.is_inventory = True
+        self.draw = self.inventory.draw
+        self.handle_event = self.inventory.handle_event
 
     def set_menu_value(self, name, ip):
         self.name = name

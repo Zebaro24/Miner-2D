@@ -14,6 +14,6 @@ class Player:
         self.count_gold += 1
 
     def convert_to_token(self):
-        self.count_tokens += self.count_iron
-        self.count_tokens += self.count_gold * 3
+        self.count_tokens += self.count_iron * 4
+        self.count_tokens += self.count_gold * 10
         self.count_iron, self.count_gold = 0, 0
