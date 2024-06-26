@@ -63,14 +63,16 @@ class Miner2D:
     def draw_balance(self, screen):
         pygame.draw.rect(screen, COLOR.BLACK, (0, 560, 880, 40))
         font = pygame.font.Font(None, 38)
+        cobblestone_surface = font.render(f"Камінь: {self.player.count_cobblestone}", True, COLOR.WHITE)
         iron_surface = font.render(f"Железо: {self.player.count_iron}", True, COLOR.WHITE)
         gold_surface = font.render(f"Золото: {self.player.count_gold}", True, COLOR.WHITE)
         coordinate_surface = font.render(f"x{self.player_x} y{self.player_y}", True, COLOR.WHITE)
         token_surface = font.render(f"Токены: {self.player.count_tokens}", True, COLOR.YELLOW)
 
-        screen.blit(iron_surface, (20, 566))
-        screen.blit(gold_surface, (220, 566))
-        screen.blit(coordinate_surface, (500,566))
+        screen.blit(cobblestone_surface, (20, 566))
+        screen.blit(iron_surface, (220, 566))
+        screen.blit(gold_surface, (500, 566))
+        screen.blit(coordinate_surface, (25,25))
         screen.blit(token_surface, (700, 566))
 
     def exit_from_server(self):
@@ -99,6 +101,8 @@ class Miner2D:
             self.player.add_iron()
         elif block is self.map.all_block.gold_ore:
             self.player.add_gold()
+        elif block is self.map.all_block.cobblestone:
+            self.player.add_cobblestone()
 
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
         self.map.send_changes()
