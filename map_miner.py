@@ -43,7 +43,6 @@ class MapMiner(list):
         return choice(self.list_blocks)
 
     def set_player_position(self, x, y):
-        print("ggg")
         self.set_block(x, y, self.all_block.player)
 
         mycelium = self.all_block.mycelium
@@ -63,7 +62,6 @@ class MapMiner(list):
         self[y][x] = block
 
     def send_changes(self):
-        print(self.changes)
         self.send_changes_func(self.changes)
         self.changes.clear()
 

@@ -1,4 +1,5 @@
 # server.py
+from config import IP, PORT
 from socket import socket, AF_INET, SOCK_STREAM
 from pickle import dumps, loads
 from threading import Thread
@@ -83,7 +84,6 @@ class ClientHandler(Thread):
             print(f"Closed connection. Remaining clients: {len(self.server.client_handlers)}")
 
 
-
 if __name__ == "__main__":
-    my_server = Server("26.247.81.234", 12345)  # Пример адреса и порта
+    my_server = Server(IP, PORT)  # Пример адреса и порта
     my_server.run()

@@ -1,2 +1,0 @@
-white
-localhost:12345

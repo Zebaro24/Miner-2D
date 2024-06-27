@@ -1,6 +1,9 @@
 import pygame
 import sys
 
+from config import COLOR
+
+
 class Inventory:
     def __init__(self, runner, width, height):
         print("Inventory init")
@@ -9,12 +12,12 @@ class Inventory:
         self.height = height
 
         # Define colors
-        self.text_color = (255, 255, 255)
-        self.button_color = (100, 100, 100)
-        self.button_hover_color = (150, 150, 150)
-        self.input_active_color = (200, 200, 200)
-        self.input_inactive_color = (100, 100, 100)
-        self.bg_color = (50, 50, 50)
+        self.text_color = COLOR.WHITE
+        self.button_color = COLOR.DARK_GRAY
+        self.button_hover_color = COLOR.GRAY
+        self.input_active_color = COLOR.LIGHT_GRAY
+        self.input_inactive_color = COLOR.DARK_GRAY
+        self.bg_color = COLOR.BACKGROUND
 
         self.font = pygame.font.Font(None, 36)
 
@@ -30,11 +33,16 @@ class Inventory:
 
         # Item details
         self.items = [
-            {"level": 1,"rect": pygame.Rect(50, 150 + 0 * 120, 800, 100), "text": f"Item wood pickaxe", "price": "100$", "image": self.images[0]},
-            {"level": 2,"rect": pygame.Rect(50, 150 + 1 * 120, 800, 100), "text": f"Item stone pickaxe", "price": "500$", "image": self.images[1]},
-            {"level": 3,"rect": pygame.Rect(50, 150 + 2 * 120, 800, 100), "text": f"Item iron pickaxe", "price": "1500$", "image": self.images[2]},
-            {"level": 4,"rect": pygame.Rect(50, 150 + 3 * 120, 800, 100), "text": f"Item gold pickaxe", "price": "3000$", "image": self.images[3]},
-            {"level": 5,"rect": pygame.Rect(50, 150 + 4 * 120, 800, 100), "text": f"Item diamond pickaxe", "price": "5000$", "image": self.images[4]},
+            {"level": 1, "rect": pygame.Rect(50, 150 + 0 * 120, 800, 100), "text": f"Item wood pickaxe",
+             "price": "100$", "image": self.images[0]},
+            {"level": 2, "rect": pygame.Rect(50, 150 + 1 * 120, 800, 100), "text": f"Item stone pickaxe",
+             "price": "500$", "image": self.images[1]},
+            {"level": 3, "rect": pygame.Rect(50, 150 + 2 * 120, 800, 100), "text": f"Item iron pickaxe",
+             "price": "1500$", "image": self.images[2]},
+            {"level": 4, "rect": pygame.Rect(50, 150 + 3 * 120, 800, 100), "text": f"Item gold pickaxe",
+             "price": "3000$", "image": self.images[3]},
+            {"level": 5, "rect": pygame.Rect(50, 150 + 4 * 120, 800, 100), "text": f"Item diamond pickaxe",
+             "price": "5000$", "image": self.images[4]},
 
         ]
 
@@ -45,6 +53,7 @@ class Inventory:
 
         # Устанавливаем начальное смещение прокрутки
         self.scroll_offset = 0
+
     def draw(self, surface):
         surface.fill(self.bg_color)
 
@@ -90,7 +99,7 @@ class Inventory:
 
                         # перевіряємо, чи не купує гравець кірку гіршу, за ту шо в нього є
                         if self.runner.miner_2d.player.item['level'] < item["level"]:
-                            if self.runner.miner_2d.player.item['level']+1 == item["level"]:
+                            if self.runner.miner_2d.player.item['level'] + 1 == item["level"]:
 
                                 self.runner.miner_2d.player.count_tokens = balance - required_balance
                                 self.runner.miner_2d.player.item["level"] = item['level']
@@ -99,9 +108,9 @@ class Inventory:
                                 break
                             else:
                                 lvl = item['level'] - 1
-                                for item in self.items:
-                                    if item["level"] == lvl:
-                                        print(f"сначала купите {item['text']} kirku")
+                                for my_item in self.items:
+                                    if my_item["level"] == lvl:
+                                        print(f"сначала купите {my_item['text']} kirku")
                         # якшо гірше, то не купуємо
                         else:
                             print("Y вас круче")
@@ -119,13 +128,16 @@ class Inventory:
 
         return None
 
+
 # Example runner class for context
 class Runner:
     def __init__(self):
         self.is_inventory = True
 
-    def change_to_miner_2d_from_menu(self):
+    @staticmethod
+    def change_to_miner_2d_from_menu():
         print("Change to miner 2D from menu")
+
 
 def main():
     pygame.init()
@@ -149,6 +161,7 @@ def main():
 
     pygame.quit()
     sys.exit()
+
 
 if __name__ == "__main__":
     main()

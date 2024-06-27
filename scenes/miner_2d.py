@@ -4,7 +4,6 @@ from config import COLOR
 
 from map_miner import MapMiner
 from player import Player
-from scenes.inventory import Inventory
 
 
 class Miner2D:
@@ -72,27 +71,28 @@ class Miner2D:
         screen.blit(cobblestone_surface, (20, 566))
         screen.blit(iron_surface, (220, 566))
         screen.blit(gold_surface, (500, 566))
-        screen.blit(coordinate_surface, (25,25))
+        screen.blit(coordinate_surface, (25, 25))
         screen.blit(token_surface, (700, 566))
 
     def exit_from_server(self):
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
         self.map.send_changes()
+
     def move_player(self, event):
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
-        if event.key == pygame.K_UP and self.player_y>0:
+        if event.key == pygame.K_UP and self.player_y > 0:
             self.player_y -= 1
             self.map.all_block.player.set_up()
 
-        elif event.key == pygame.K_DOWN and self.player_y<99:
+        elif event.key == pygame.K_DOWN and self.player_y < 99:
             self.player_y += 1
             self.map.all_block.player.set_down()
 
-        elif event.key == pygame.K_LEFT and self.player_x>0:
+        elif event.key == pygame.K_LEFT and self.player_x > 0:
             self.player_x -= 1
             self.map.all_block.player.set_left()
 
-        elif event.key == pygame.K_RIGHT and self.player_x<99:
+        elif event.key == pygame.K_RIGHT and self.player_x < 99:
             self.player_x += 1
             self.map.all_block.player.set_right()
 
@@ -107,8 +107,6 @@ class Miner2D:
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
         self.map.send_changes()
 
-
-
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
@@ -116,7 +114,6 @@ class Miner2D:
             elif event.key == pygame.K_e:
                 if not self.runner.is_inventory:
                     self.runner.change_to_inventory()
-
 
             elif event.key == pygame.K_RETURN:
                 self.player.convert_to_token()
