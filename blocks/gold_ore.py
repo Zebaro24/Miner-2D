@@ -8,3 +8,4 @@ from config import COLOR
 class GoldOre(Block):
     id = "gold_ore"
     image_path = "images/gold_ore.png"
+    time_destroy = 1

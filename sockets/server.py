@@ -85,5 +85,5 @@ class ClientHandler(Thread):
 
 
 if __name__ == "__main__":
-    my_server = Server("26.247.81.234", 12345)  # Пример адреса и порта
+    my_server = Server("localhost", 12345)  # Пример адреса и порта
     my_server.run()
