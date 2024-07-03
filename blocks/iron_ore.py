@@ -8,4 +8,4 @@ from config import COLOR
 class IronOre(Block):
     id = "iron_ore"
     image_path = "images/iron_ore.png"
-    time_destroy = 5
+    time_destroy = 4

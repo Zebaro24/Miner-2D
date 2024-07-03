@@ -91,7 +91,7 @@ class Miner2D:
         if event.key == pygame.K_UP and self.player_y > 0:
             self.key = event.key
             self.block = self.map[self.player_y - 1][self.player_x]
-            if self.block == self.map.all_block.mycelium:
+            if self.block == self.map.all_block.mycelium or self.block == self.map.all_block.player:
                 self.move_player_break()
             else:
                 self.break_block(self.block)
@@ -102,7 +102,7 @@ class Miner2D:
         elif event.key == pygame.K_DOWN and self.player_y < 99:
             self.key = event.key
             self.block = self.map[self.player_y + 1][self.player_x]
-            if self.block == self.map.all_block.mycelium:
+            if self.block == self.map.all_block.mycelium or self.block == self.map.all_block.player:
                 self.move_player_break()
             else:
                 self.break_block(self.block)
@@ -111,7 +111,7 @@ class Miner2D:
         elif event.key == pygame.K_LEFT and self.player_x > 0:
             self.key = event.key
             self.block = self.map[self.player_y][self.player_x - 1]
-            if self.block == self.map.all_block.mycelium:
+            if self.block == self.map.all_block.mycelium or self.block == self.map.all_block.player:
                 self.move_player_break()
 
             else:
@@ -121,9 +121,11 @@ class Miner2D:
         elif event.key == pygame.K_RIGHT and self.player_x < 99:
             self.key = event.key
             self.block = self.map[self.player_y][self.player_x + 1]
-            if self.block == self.map.all_block.mycelium:
+            if self.block == self.map.all_block.mycelium or self.block == self.map.all_block.player:
+                print("mycelium or player")
                 self.move_player_break()
             else:
+                print("block!!!!!!!!!!!")
                 self.break_block(self.block)
 
 
@@ -156,7 +158,8 @@ class Miner2D:
     def draw_breaking_block(self, screen):
         pygame.draw.rect(screen, COLOR.BLACK, (100, 500, 600, 40))
         pygame.draw.rect(screen, COLOR.RED, (100, 500, self.progress, 40))
-        self.progress += self.block.time_destroy/2
+
+        self.progress += (self.block.time_destroy*self.player.item['level'])
         if self.progress >= 600:
             self.done = True
             self.breaking = False

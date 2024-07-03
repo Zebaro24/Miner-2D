@@ -5,7 +5,7 @@ from blocks.block import Block
 class Player(Block):
     id = "player"
     image_path_player = "images/player/steve_face.png"
-
+    time_destroy = 10000000000
     def set_down(self):
         self.image_path_player = "images/player/steve_face.png"
         self.surface = None

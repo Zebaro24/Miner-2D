@@ -2,10 +2,9 @@ class Player:
     def __init__(self, nickname):
         self.count_cobblestone = 0
         self.nickname = nickname
-
         self.count_iron = 0
         self.count_gold = 0
-        self.item = {"level":0, "item" : "hand"}
+        self.item = {"level":1, "item" : "hand"}
         self.count_tokens = 0
 
     def add_iron(self):
