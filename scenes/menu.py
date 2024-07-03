@@ -97,12 +97,13 @@ class Menu:
         return None
 
     def write_data(self):
-        f = open("log.txt", "w")
+        f = open("save.config", "w")
         f.write(f"{self.nickname}\n{self.ip_address}")
         f.close()
 
-    def read_data(self):
-        file = open('log.txt', 'r')
+    @staticmethod
+    def read_data():
+        file = open('save.config', 'r')
         content = file.read()
         file.close()
         return content.split("\n")[0], content.split("\n")[1]

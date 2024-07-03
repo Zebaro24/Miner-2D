@@ -10,6 +10,7 @@ class Client(socket, Thread):
     def __init__(self, ip_address, miner_2d: Miner2D):
         socket.__init__(self, AF_INET, SOCK_STREAM)
         Thread.__init__(self)
+        self._is_running = None
         self.miner_2d = miner_2d
         self.host, self.port = ip_address.split(":")
         self.connect((self.host, int(self.port)))
@@ -31,7 +32,6 @@ class Client(socket, Thread):
             "type": type_data,
             "data": data
         }
-        print(dict_data)
         data_pickle = dumps(dict_data)
         self.sendall(data_pickle)
 
@@ -39,7 +39,6 @@ class Client(socket, Thread):
         if dict_data["type"] == "changes":
             self.set_changes(dict_data["data"])
         elif dict_data["type"] == "world_map":
-            print("gg")
             self.set_world_map(dict_data["data"])
 
     def close_connection(self):

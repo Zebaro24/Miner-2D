@@ -30,11 +30,11 @@ class Inventory:
 
         # Item details
         self.items = [
-            {"level": 2,"rect": pygame.Rect(50, 150 + 0 * 120, 800, 100), "text": f"Item wood pickaxe", "price": "50$", "image": self.images[0]},
-            {"level": 3,"rect": pygame.Rect(50, 150 + 1 * 120, 800, 100), "text": f"Item stone pickaxe", "price": "100$", "image": self.images[1]},
-            {"level": 4,"rect": pygame.Rect(50, 150 + 2 * 120, 800, 100), "text": f"Item iron pickaxe", "price": "200$", "image": self.images[2]},
-            {"level": 5,"rect": pygame.Rect(50, 150 + 3 * 120, 800, 100), "text": f"Item gold pickaxe", "price": "400$", "image": self.images[3]},
-            {"level": 6,"rect": pygame.Rect(50, 150 + 4 * 120, 800, 100), "text": f"Item diamond pickaxe", "price": "800$", "image": self.images[4]},
+            {"level": 1,"rect": pygame.Rect(50, 150 + 0 * 120, 800, 100), "text": f"Item wood pickaxe", "price": "100$", "image": self.images[0]},
+            {"level": 2,"rect": pygame.Rect(50, 150 + 1 * 120, 800, 100), "text": f"Item stone pickaxe", "price": "500$", "image": self.images[1]},
+            {"level": 3,"rect": pygame.Rect(50, 150 + 2 * 120, 800, 100), "text": f"Item iron pickaxe", "price": "1500$", "image": self.images[2]},
+            {"level": 4,"rect": pygame.Rect(50, 150 + 3 * 120, 800, 100), "text": f"Item gold pickaxe", "price": "3000$", "image": self.images[3]},
+            {"level": 5,"rect": pygame.Rect(50, 150 + 4 * 120, 800, 100), "text": f"Item diamond pickaxe", "price": "5000$", "image": self.images[4]},
 
         ]
 

@@ -17,7 +17,6 @@ class AllBlock:
         self.iron_ore = IronOre()
         self.gold_ore = GoldOre()
 
-
     def get_list_block(self):
         return {self.cobblestone: 7,
                 self.iron_ore: 3,
