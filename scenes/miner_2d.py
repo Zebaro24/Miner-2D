@@ -29,6 +29,7 @@ class Miner2D:
         self.player_cord = self.view_cord.copy()
         print(self.view_cord)
         self.progress = 0
+
     def set_player(self):
         self.player_x, self.player_y = randint(40, self.map.width - 40), randint(40, self.map.height - 40)
         self.map.set_player_position(self.player_x, self.player_y)
@@ -76,7 +77,7 @@ class Miner2D:
         screen.blit(cobblestone_surface, (20, 566))
         screen.blit(iron_surface, (220, 566))
         screen.blit(gold_surface, (500, 566))
-        screen.blit(coordinate_surface, (25,25))
+        screen.blit(coordinate_surface, (25, 25))
         screen.blit(token_surface, (700, 566))
 
     def exit_from_server(self):
@@ -87,7 +88,6 @@ class Miner2D:
         if self.breaking:
             return
 
-
         if event.key == pygame.K_UP and self.player_y > 0:
             self.key = event.key
             self.block = self.map[self.player_y - 1][self.player_x]
@@ -95,9 +95,6 @@ class Miner2D:
                 self.move_player_break()
             else:
                 self.break_block(self.block)
-
-
-
 
         elif event.key == pygame.K_DOWN and self.player_y < 99:
             self.key = event.key
@@ -107,7 +104,6 @@ class Miner2D:
             else:
                 self.break_block(self.block)
 
-
         elif event.key == pygame.K_LEFT and self.player_x > 0:
             self.key = event.key
             self.block = self.map[self.player_y][self.player_x - 1]
@@ -116,7 +112,6 @@ class Miner2D:
 
             else:
                 self.break_block(self.block)
-
 
         elif event.key == pygame.K_RIGHT and self.player_x < 99:
             self.key = event.key
@@ -128,11 +123,6 @@ class Miner2D:
                 print("block!!!!!!!!!!!")
                 self.break_block(self.block)
 
-
-
-
-
-
     def handle_event(self, event):
         if event.type == pygame.KEYDOWN:
             if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
@@ -141,25 +131,22 @@ class Miner2D:
                 if not self.runner.is_inventory:
                     self.runner.change_to_inventory()
 
-
             elif event.key == pygame.K_RETURN:
                 self.player.convert_to_token()
         elif event.type == pygame.KEYUP:
             if event.key in [pygame.K_UP, pygame.K_DOWN, pygame.K_LEFT, pygame.K_RIGHT]:
                 self.breaking = False
 
-
     def break_block(self, block):
-        self.done= False
+        self.done = False
         self.breaking = True
         self.progress = 0
-
 
     def draw_breaking_block(self, screen):
         pygame.draw.rect(screen, COLOR.BLACK, (100, 500, 600, 40))
         pygame.draw.rect(screen, COLOR.RED, (100, 500, self.progress, 40))
 
-        self.progress += (self.block.time_destroy*self.player.item['level'])
+        self.progress += (self.block.time_destroy * self.player.item['level'])
         if self.progress >= 600:
             self.done = True
             self.breaking = False
@@ -171,7 +158,7 @@ class Miner2D:
             self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
             self.player_y -= 1
             self.map.all_block.player.set_up()
-        elif self.key== pygame.K_DOWN:
+        elif self.key == pygame.K_DOWN:
             self.map.set_block(self.player_x, self.player_y, self.map.all_block.mycelium)
             self.player_y += 1
             self.map.all_block.player.set_down()
@@ -194,6 +181,7 @@ class Miner2D:
 
         self.map.set_block(self.player_x, self.player_y, self.map.all_block.player)
         self.map.send_changes()
+
 
 if __name__ == '__main__':
     my_map = MapMiner(100, 100)
