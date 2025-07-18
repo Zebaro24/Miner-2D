@@ -114,8 +114,8 @@ runner.py               # Main game executable
 ## 🎮 Gameplay Preview
 | Single Player | Multiplayer |
 |---------------|-------------|
-| ![Solo Mining](https://placehold.co/300x150/3d5a80/ffffff?text=Resource+Mining) | ![Team Play](https://placehold.co/300x150/293241/ffffff?text=Multiplayer+Sync) |
-| ![Inventory](https://placehold.co/300x150/98c1d9/000000?text=Item+Management) | ![World](https://placehold.co/300x150/ee6c4d/ffffff?text=Procedural+Worlds) |
+| <img src="https://github.com/user-attachments/assets/1f17dbb0-1352-44f6-a949-10e20e7790b3" alt="Solo Mining" width="500" /> | <img src="https://github.com/user-attachments/assets/99586130-7fcf-4ee9-81bb-4a84234cfd10" alt="Team Play" width="500" /> |
+| <img src="https://github.com/user-attachments/assets/870c44d4-f1d0-4750-a8de-0c4cd0c2260f" alt="Inventory" width="500" /> | <img src="https://github.com/user-attachments/assets/e27b6ca1-aa59-4a57-91b7-c16022abbc99" alt="Team Play" width="500" /> |
 
 
 ---
