@@ -120,6 +120,8 @@ runner.py               # Main game executable
 
 ---
 
-## 📬 Contact
-- **Developer**: Denys Shcherbatyi
-- **Email**: zebaro.work@gmail.com
+## 📬 Contacts
+| 👨‍💻 Developer   | 📧 Email              |
+|-------------------|-----------------------|
+| Denys Shcherbatyi | zebaro.work@gmail.com |
+| Dmytro Itsko      | cloud.me.fr@gmail.com |
